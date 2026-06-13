@@ -3,724 +3,608 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎵 סטודיו אביב</title>
+<title>סטודיו אביב 🎵</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--p:#3b82f6;--pd:#1d4ed8;--ok:#10b981;--warn:#f59e0b;--err:#ef4444;--bg:#f1f5f9;--card:#fff;--text:#1e293b;--muted:#64748b;--bdr:#e2e8f0}
-body{font-family:'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--text);direction:rtl;min-height:100vh}
-header{background:#1e293b;color:#fff;padding:11px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.25)}
-header h1{font-size:1.15rem;font-weight:600}
-.hright{display:flex;align-items:center;gap:10px}
-.sync-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex-shrink:0}
-.sync-dot.spin{background:var(--warn);animation:pulse 1s infinite}
-.sync-dot.err{background:var(--err)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.sync-btn{background:none;border:1px solid #475569;color:#94a3b8;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:.78rem}
-.sync-btn:hover{color:#fff;border-color:#94a3b8}
-.date-lbl{font-size:.78rem;color:#94a3b8}
-nav{background:#fff;border-bottom:2px solid var(--bdr);display:flex;overflow-x:auto;position:sticky;top:48px;z-index:199}
-nav button{padding:11px 15px;border:none;background:none;color:var(--muted);cursor:pointer;font-size:.85rem;font-weight:500;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .15s}
-nav button:hover{color:var(--p)}
-nav button.active{color:var(--p);border-bottom-color:var(--p)}
-main{max-width:1000px;margin:0 auto;padding:16px 13px}
-.tab{display:none}.tab.active{display:block}
-.card{background:var(--card);border-radius:12px;padding:15px 17px;margin-bottom:11px;border:1px solid var(--bdr);box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.card-title{font-size:.93rem;font-weight:600;margin-bottom:11px;display:flex;align-items:center;gap:5px}
-.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:11px}
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:9px;margin-bottom:13px}
-.stat-card{background:var(--card);border-radius:10px;padding:11px;text-align:center;border:1px solid var(--bdr)}
-.stat-num{font-size:1.75rem;font-weight:700;color:var(--p);line-height:1}
-.stat-lbl{font-size:.73rem;color:var(--muted);margin-top:3px}
-.lesson-item{display:flex;gap:11px;padding:10px 11px;border-radius:9px;border:1px solid var(--bdr);margin-bottom:7px;background:#fafbfc;align-items:flex-start}
-.ltime{font-size:1.05rem;font-weight:700;color:var(--p);min-width:50px;text-align:center;padding-top:2px}
-.linfo{flex:1}.lname{font-weight:600;font-size:.92rem;margin-bottom:2px}
-.lmeta{font-size:.78rem;color:var(--muted)}
-.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:.71rem;font-weight:600}
-.bg{background:#dcfce7;color:#166534}.br{background:#fee2e2;color:#991b1b}
-.by{background:#fef3c7;color:#92400e}.bb{background:#dbeafe;color:#1e40af}
-.btn{padding:7px 15px;border-radius:8px;border:none;cursor:pointer;font-size:.83rem;font-weight:600;transition:all .15s}
-.btn-p{background:var(--p);color:#fff}.btn-p:hover{background:var(--pd)}
-.btn-ok{background:var(--ok);color:#fff}.btn-ok:hover{background:#059669}
-.btn-o{background:none;border:1px solid var(--bdr);color:var(--text)}.btn-o:hover{background:#f8fafc}
-.btn-sm{padding:3px 9px;font-size:.76rem}
-.btn-err{background:var(--err);color:#fff}
-.form-g{margin-bottom:12px}
-.form-g label{display:block;font-size:.82rem;font-weight:600;margin-bottom:4px}
-.form-g select,.form-g input,.form-g textarea{width:100%;padding:8px 11px;border:1px solid var(--bdr);border-radius:8px;font-size:.88rem;font-family:inherit;color:var(--text);background:#fff;transition:border-color .15s}
-.form-g select:focus,.form-g input:focus,.form-g textarea:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 3px rgba(59,130,246,.1)}
-.form-g textarea{min-height:85px;resize:vertical}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.sc{background:var(--card);border-radius:10px;border:1px solid var(--bdr);overflow:hidden;margin-bottom:8px}
-.sc-head{padding:11px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
-.sc-head:hover{background:#f8fafc}
-.sc-body{padding:12px 14px;border-top:1px solid var(--bdr);display:none}
-.sc-body.open{display:block}
-.dr{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9;font-size:.85rem}
-.dr:last-child{border:none}
-.dl{color:var(--muted)}.dv{font-weight:500}
-.task-item{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid #f1f5f9;align-items:flex-start}
-.task-item:last-child{border:none}
-.task-item input[type=checkbox]{width:15px;height:15px;cursor:pointer;accent-color:var(--p);flex-shrink:0;margin-top:3px}
-.task-txt{font-size:.88rem;line-height:1.5}
-.task-txt.done{text-decoration:line-through;color:var(--muted)}
-.task-sub{font-size:.74rem;color:var(--muted);margin-top:1px}
-.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:11px 20px;border-radius:10px;font-size:.88rem;z-index:9999;animation:sup .25s ease;box-shadow:0 4px 14px rgba(0,0,0,.2)}
-.toast.ok{background:var(--ok)}.toast.err{background:var(--err)}
-@keyframes sup{from{opacity:0;transform:translateX(-50%) translateY(15px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-.pay-row{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-radius:7px;margin-bottom:5px;background:#fef2f2}
-.info-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 13px;font-size:.83rem;margin-bottom:9px;line-height:1.6}
-.warn-box{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 13px;font-size:.83rem;margin-bottom:9px;line-height:1.6}
-.section-title{font-size:1.15rem;font-weight:700;margin-bottom:13px}
-.cal-btn{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:5px;background:#f0fdf4;color:#166534;font-size:.72rem;text-decoration:none;border:1px solid #bbf7d0}
-.cal-btn:hover{background:#dcfce7}
-.strat-phase{border-right:4px solid var(--p);padding-right:13px;margin-bottom:17px}
-.strat-phase h3{font-size:.93rem;font-weight:600;margin-bottom:5px;color:var(--pd)}
-.strat-phase p,.strat-phase li{font-size:.87rem;line-height:1.7}
-.strat-phase ul{padding-right:15px;margin-top:3px}
-.ctable{width:100%;border-collapse:collapse;font-size:.83rem;margin-top:9px}
-.ctable th{background:#f1f5f9;padding:8px 9px;text-align:right;font-weight:600;border:1px solid var(--bdr)}
-.ctable td{padding:8px 9px;border:1px solid var(--bdr)}
-.agreement-doc{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:17px;font-size:.87rem;line-height:2;white-space:pre-wrap;min-height:240px}
-[contenteditable]:hover{background:#fef9c3}[contenteditable]:focus{outline:1px dashed #ca8a04;background:#fef9c3}
-.loading-box{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px;color:var(--muted);gap:12px}
-.spinner{width:32px;height:32px;border:3px solid var(--bdr);border-top-color:var(--p);border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:580px){.form-row{grid-template-columns:1fr}nav button{padding:9px 11px;font-size:.8rem}}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; color: #1a1a2e; direction: rtl; }
+  header { background: #1a1a2e; color: white; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+  header h1 { font-size: 1.4rem; }
+  header span { font-size: 0.85rem; opacity: 0.7; }
+  nav { background: white; border-bottom: 2px solid #e8e8e8; display: flex; overflow-x: auto; }
+  nav button { padding: 14px 18px; border: none; background: none; cursor: pointer; font-size: 0.9rem; white-space: nowrap; color: #666; border-bottom: 3px solid transparent; transition: all 0.2s; }
+  nav button.active { color: #4a90d9; border-bottom-color: #4a90d9; font-weight: 600; }
+  nav button:hover { background: #f8f9fa; }
+  .tab { display: none; padding: 20px; max-width: 900px; margin: 0 auto; }
+  .tab.active { display: block; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .card { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .card .num { font-size: 2rem; font-weight: 700; }
+  .card .lbl { font-size: 0.8rem; color: #888; margin-top: 4px; }
+  .card.red .num { color: #e74c3c; }
+  .card.orange .num { color: #e67e22; }
+  .card.blue .num { color: #3498db; }
+  .card.green .num { color: #27ae60; }
+  .section { background: white; border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 16px; }
+  .section h3 { font-size: 1rem; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+  .lesson-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 0.9rem; }
+  .lesson-row:last-child { border-bottom: none; }
+  .debt-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: 8px; background: #fff5f5; margin-bottom: 6px; }
+  .debt-amt { color: #e74c3c; font-weight: 700; }
+  .day-label { color: #4a90d9; font-weight: 600; font-size: 0.85rem; margin: 10px 0 4px; }
+  .tag { font-size: 0.75rem; color: #888; background: #f0f0f0; padding: 2px 8px; border-radius: 10px; }
+  form { display: flex; flex-direction: column; gap: 12px; }
+  label { font-size: 0.85rem; color: #555; margin-bottom: 2px; display: block; }
+  input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.9rem; font-family: inherit; }
+  textarea { resize: vertical; min-height: 80px; }
+  .btn { padding: 11px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; }
+  .btn-primary { background: #4a90d9; color: white; }
+  .btn-primary:hover { background: #357abd; }
+  .btn-success { background: #27ae60; color: white; }
+  .btn-success:hover { background: #219a52; }
+  .btn-danger { background: #e74c3c; color: white; }
+  .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+  .student-card { background: white; border-radius: 12px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 12px; }
+  .student-card h4 { font-size: 1rem; margin-bottom: 6px; }
+  .student-card .meta { font-size: 0.82rem; color: #777; display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .badge { padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+  .badge-active { background: #d4edda; color: #155724; }
+  .badge-pause { background: #fff3cd; color: #856404; }
+  .badge-wait { background: #cce5ff; color: #004085; }
+  .badge-inactive { background: #f8d7da; color: #721c24; }
+  .msg { padding: 12px 16px; border-radius: 8px; margin-bottom: 12px; font-size: 0.9rem; }
+  .msg-success { background: #d4edda; color: #155724; }
+  .msg-error { background: #f8d7da; color: #721c24; }
+  .msg-info { background: #cce5ff; color: #004085; }
+  .task-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+  .task-row:last-child { border-bottom: none; }
+  .task-row input[type=checkbox] { width: 18px; height: 18px; cursor: pointer; }
+  .task-row label { cursor: pointer; flex: 1; }
+  .task-row label.done { text-decoration: line-through; color: #aaa; }
+  .strat-item { padding: 12px 16px; background: #f8f9fa; border-radius: 8px; margin-bottom: 8px; border-right: 4px solid #4a90d9; }
+  .token-box { background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 16px; margin-bottom: 16px; font-size: 0.85rem; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media(max-width: 600px) { .row2 { grid-template-columns: 1fr; } .grid { grid-template-columns: 1fr 1fr; } }
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid #ccc; border-top-color: #4a90d9; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .log-entry { padding: 10px 14px; border-radius: 8px; background: #f8f9fa; margin-bottom: 8px; font-size: 0.85rem; }
+  .log-entry .log-date { font-weight: 600; color: #4a90d9; }
+  .log-entry .log-status { font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; }
+  .log-paid { background: #d4edda; color: #155724; }
+  .log-unpaid { background: #fff3cd; color: #856404; }
+  .log-cancel { background: #f8d7da; color: #721c24; }
+  .tabs-lessons { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .tabs-lessons button { padding: 6px 14px; border-radius: 20px; border: 1px solid #ddd; background: white; cursor: pointer; font-size: 0.82rem; }
+  .tabs-lessons button.active { background: #4a90d9; color: white; border-color: #4a90d9; }
+  #historyList .no-data { color: #aaa; text-align: center; padding: 20px; }
 </style>
 </head>
 <body>
 
 <header>
   <h1>🎵 סטודיו אביב</h1>
-  <div class="hright">
-    <span id="syncDot" class="sync-dot" title="סטטוס חיבור GitHub"></span>
-    <button class="sync-btn" onclick="loadData()">⟳ רענן</button>
-    <span class="date-lbl" id="dateLbl"></span>
-  </div>
+  <span id="headerDate"></span>
 </header>
 
-<nav>
-  <button class="active" onclick="showTab('today',this)">🏠 היום</button>
-  <button onclick="showTab('log',this)">➕ תיעוד</button>
-  <button onclick="showTab('students',this)">👥 תלמידים</button>
-  <button onclick="showTab('tasks',this)">✅ משימות</button>
-  <button onclick="showTab('strategy',this)">📈 אסטרטגיה</button>
-  <button onclick="showTab('agreement',this)">📄 הסכם</button>
-  <button onclick="showTab('settings',this)">⚙️ הגדרות</button>
+<nav id="mainNav">
+  <button class="active" onclick="showTab('today')">🏠 היום</button>
+  <button onclick="showTab('log')">📝 תיעוד</button>
+  <button onclick="showTab('history')">📋 היסטוריה</button>
+  <button onclick="showTab('students')">👥 תלמידים</button>
+  <button onclick="showTab('tasks')">✅ משימות</button>
+  <button onclick="showTab('strategy')">📈 אסטרטגיה</button>
+  <button onclick="showTab('settings')">⚙️ הגדרות</button>
 </nav>
 
-<main>
-
 <!-- TODAY -->
-<div id="today" class="tab active">
-  <div id="todayContent">
-    <div class="loading-box"><div class="spinner"></div><div>טוען נתונים...</div></div>
+<div id="tab-today" class="tab active">
+  <div id="statusMsg"></div>
+  <div class="grid" id="statsGrid"></div>
+  <div class="row2">
+    <div class="section">
+      <h3>⚡ משימות דחופות</h3>
+      <div id="urgentTasks"></div>
+    </div>
+    <div class="section">
+      <h3>📅 שיעורים היום</h3>
+      <div id="todayLessons"></div>
+    </div>
+  </div>
+  <div class="row2">
+    <div class="section">
+      <h3>📅 שיעורים הבאים</h3>
+      <div id="upcomingLessons"></div>
+    </div>
+    <div class="section">
+      <h3>💰 חובות פתוחים</h3>
+      <div id="debtList"></div>
+    </div>
   </div>
 </div>
 
-<!-- LOG -->
-<div id="log" class="tab">
-  <div class="section-title">➕ תיעוד שיעור</div>
-  <div class="card">
-    <form id="lessonForm" onsubmit="submitLesson(event)">
-      <div class="form-row">
-        <div class="form-g">
+<!-- LOG LESSON -->
+<div id="tab-log" class="tab">
+  <div class="section">
+    <h3>📝 תיעוד שיעור</h3>
+    <div id="logMsg"></div>
+    <form id="logForm">
+      <div class="row2">
+        <div>
           <label>תלמיד</label>
-          <select id="fStudent" onchange="onStudentChange()" required>
-            <option value="">— בחר תלמיד —</option>
-          </select>
+          <select id="logStudent" required></select>
         </div>
-        <div class="form-g">
+        <div>
           <label>תאריך</label>
-          <input type="date" id="fDate" required>
+          <input type="date" id="logDate" required>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-g">
+      <div class="row2">
+        <div>
           <label>שעה</label>
-          <input type="time" id="fTime">
+          <input type="time" id="logTime">
         </div>
-        <div class="form-g">
+        <div>
           <label>סטטוס</label>
-          <select id="fStatus" onchange="onStatusChange()">
+          <select id="logStatus">
             <option value="התקיים">✅ התקיים</option>
-            <option value="בוטל_ע״י_תלמיד">❌ ביטול ע"י תלמיד</option>
-            <option value="בוטל_ע״י_מורה">❌ ביטול ע"י מורה</option>
+            <option value="בוטל">❌ בוטל</option>
+            <option value="הוזז">↩️ הוזז</option>
           </select>
         </div>
       </div>
-      <div id="contentSection">
-        <div class="form-g">
-          <label>מה עברנו</label>
-          <textarea id="fContent" placeholder="תוכן השיעור — מה תרגלנו, מה הגדרנו למשימה..."></textarea>
+      <div>
+        <label>מה עברנו</label>
+        <textarea id="logContent" placeholder="תוכן השיעור, מה תרגלנו..."></textarea>
+      </div>
+      <div class="row2">
+        <div>
+          <label>תשלום</label>
+          <select id="logPaid">
+            <option value="לא">לא שולם</option>
+            <option value="כן">שולם</option>
+          </select>
         </div>
-        <div class="form-row">
-          <div class="form-g">
-            <label>תשלום</label>
-            <select id="fPayment" onchange="onPaymentChange()">
-              <option value="לא_שולם">לא שולם</option>
-              <option value="שולם">שולם ✓</option>
-              <option value="לא_רלוונטי">לא רלוונטי</option>
-            </select>
-          </div>
-          <div class="form-g" id="amountSection" style="display:none">
-            <label>סכום ששולם (₪)</label>
-            <input type="number" id="fAmount" min="0" placeholder="0">
-          </div>
+        <div>
+          <label>סכום ששולם (₪)</label>
+          <input type="number" id="logAmount" placeholder="0">
         </div>
       </div>
-      <div class="form-g">
+      <div>
         <label>הערות</label>
-        <input type="text" id="fNotes" placeholder="הערות נוספות...">
+        <textarea id="logNotes" placeholder="הערות נוספות..." style="min-height:60px"></textarea>
       </div>
-      <button type="submit" class="btn btn-p" style="width:100%;padding:10px" id="submitBtn">💾 שמור שיעור</button>
+      <button type="submit" class="btn btn-primary">💾 שמור שיעור</button>
     </form>
   </div>
 </div>
 
+<!-- HISTORY -->
+<div id="tab-history" class="tab">
+  <div class="section">
+    <h3>📋 היסטוריית שיעורים</h3>
+    <div class="tabs-lessons" id="historyFilter"></div>
+    <div id="historyList"></div>
+  </div>
+</div>
+
 <!-- STUDENTS -->
-<div id="students" class="tab">
-  <div class="section-title">👥 תלמידים פעילים</div>
-  <div id="studentList"><div class="loading-box"><div class="spinner"></div></div></div>
-  <div class="section-title" style="margin-top:20px;font-size:1rem">⏳ ממתינים לתיאום</div>
-  <div id="waitingList"></div>
+<div id="tab-students" class="tab">
+  <div id="studentsGrid"></div>
 </div>
 
 <!-- TASKS -->
-<div id="tasks" class="tab">
-  <div class="section-title">✅ משימות</div>
-  <div class="card"><div class="card-title">⚠️ דחוף</div><div id="taskUrgent"></div></div>
-  <div class="card"><div class="card-title">📞 תיאומים</div><div id="taskCoord"></div></div>
-  <div class="card"><div class="card-title">📈 אסטרטגיה</div><div id="taskStrat"></div></div>
+<div id="tab-tasks" class="tab">
+  <div class="section">
+    <h3>✅ משימות</h3>
+    <div id="tasksList"></div>
+  </div>
+  <div class="section" style="margin-top:16px">
+    <h3>➕ הוסף משימה</h3>
+    <form id="addTaskForm" style="display:flex;gap:8px">
+      <input id="newTaskText" placeholder="משימה חדשה..." style="flex:1">
+      <button type="submit" class="btn btn-primary">הוסף</button>
+    </form>
+  </div>
 </div>
 
 <!-- STRATEGY -->
-<div id="strategy" class="tab">
-  <div class="section-title">📈 אסטרטגיית צמיחה</div>
-  <div class="card">
-    <div class="card-title">📊 מצב נוכחי</div>
-    <div class="stat-grid">
-      <div class="stat-card"><div class="stat-num" id="sCount">—</div><div class="stat-lbl">תלמידים פעילים</div></div>
-      <div class="stat-card"><div class="stat-num">7–9</div><div class="stat-lbl">שיעורים/שבוע (פוטנציאל)</div></div>
-      <div class="stat-card"><div class="stat-num" style="color:var(--warn)">3,500₪</div><div class="stat-lbl">הכנסה חודשית נוכחית</div></div>
-      <div class="stat-card"><div class="stat-num" style="color:var(--ok)">6,000₪</div><div class="stat-lbl">פוטנציאל מלא</div></div>
-    </div>
+<div id="tab-strategy" class="tab">
+  <div class="section">
+    <h3>📈 מצב ההכנסות</h3>
+    <div id="stratStats"></div>
   </div>
-  <div class="card">
-    <div class="card-title">🔧 שלב א׳ — תיקון המבנה</div>
-    <div class="strat-phase"><h3>1. מדיניות ביטול</h3><ul><li>ביטול עד 24 שעות לפני → לא מחויב</li><li>ביטול פחות מ-24 שעות → <strong>מחויב במלואו</strong></li><li>להודיע לתלמידים בצורה חמה (ראה מסמך הבנות)</li></ul></div>
-    <div class="strat-phase"><h3>2. מעבר לתשלום מראש</h3><ul><li>4 שיעורים מראש לכולם</li><li>מעבר הדרגתי לתלמידים ותיקים</li></ul></div>
-    <div class="strat-phase"><h3>3. העלאת מחירים</h3>
-      <table class="ctable">
-        <tr><th>תרחיש</th><th>מחיר</th><th>שיעורים/שבוע</th><th>חודשי</th></tr>
-        <tr><td>היום</td><td>150₪</td><td>6–7</td><td>~3,500₪</td></tr>
-        <tr><td>אחרי תיקון</td><td>170₪</td><td>8</td><td>~5,400₪</td></tr>
-        <tr><td style="color:var(--ok);font-weight:600">עם העלאה</td><td>190₪</td><td>8</td><td style="color:var(--ok)">~6,000₪</td></tr>
-        <tr><td style="color:#7c3aed;font-weight:600">+ קבוצת מפוחית</td><td>—</td><td>8+קבוצה</td><td style="color:#7c3aed">~7,500₪</td></tr>
-      </table>
-    </div>
+  <div class="section">
+    <h3>🎯 יעדים</h3>
+    <div class="strat-item">שיעורי בוקר: מקסם 5-6 שעות ביום ראשון</div>
+    <div class="strat-item">תשלום מסודר: לגבות מראש כל 4 שיעורים</div>
+    <div class="strat-item">מדיניות ביטול: 24 שעות מראש</div>
+    <div class="strat-item">הגדל שיעורי זום: פחות נסיעות, יותר זמן</div>
   </div>
-  <div class="card">
-    <div class="card-title">🎵 שלב ב׳ — קבוצת מפוחית</div>
-    <div class="strat-phase"><h3>אפשרויות</h3><ul><li>🏫 חוג במתנ"ס / בית ספר — הכנסה קבועה, תלמידים מגיעים אליהם</li><li>📱 פרסום עצמאי — קבוצות פייסבוק, מבוגרים לומדים כלי</li><li>🎯 סדנה חד-פעמית ראשונה — לבדוק עניין לפני התחייבות</li></ul></div>
-    <div class="strat-phase"><h3>פעולות ראשונות</h3><ul><li>פוסט ב-2–3 קבוצות פייסבוק רלוונטיות</li><li>פנייה ל-2–3 מתנסים בשכונה</li><li>קביעת תאריך לסדנת היכרות</li></ul></div>
-  </div>
-</div>
+  <div class="section">
+    <h3>📋 מסמך הבנות</h3>
+    <div style="white-space:pre-line;font-size:0.85rem;line-height:1.7" id="agreementText">
+מסמך הבנות — שיעורי מוזיקה עם אביב
 
-<!-- AGREEMENT -->
-<div id="agreement" class="tab">
-  <div class="section-title">📄 מסמך הבנות</div>
-  <div class="info-box">לחץ על הטקסט לעריכה. התאם לכל תלמיד ושלח בוואטסאפ.</div>
-  <div class="card">
-    <div class="agreement-doc" contenteditable="true" id="agreementDoc"></div>
-    <div style="margin-top:10px;display:flex;gap:7px">
-      <button class="btn btn-p btn-sm" onclick="copyAgreement()">📋 העתק</button>
-      <button class="btn btn-o btn-sm" onclick="resetAgreement()">↺ אפס</button>
+שעות שיעור קבועות: לפי הסכם אישי עם כל תלמיד.
+ביטול: יש להודיע לפחות 24 שעות מראש. שיעור שבוטל בלי הודעה — ייגבה במלואו.
+תשלום: מראש כל 4 שיעורים שהתקיימו.
+עיכוב בתשלום: מעל 30 יום — השיעורים מופסקים עד הסדרת החוב.
     </div>
   </div>
 </div>
 
 <!-- SETTINGS -->
-<div id="settings" class="tab">
-  <div class="section-title">⚙️ הגדרות</div>
-  <div class="card">
-    <h3 style="margin-bottom:10px;font-size:1rem">🔑 GitHub Token</h3>
-    <div class="info-box">הטוקן מאפשר לדף לקרוא ולכתוב נתונים ל-GitHub. נשמר רק בדפדפן שלך — לא נשלח לשום מקום אחר.</div>
-    <div class="form-g">
-      <label>Personal Access Token</label>
-      <input type="password" id="tokenInput" placeholder="ghp_xxxxxxxxxxxx">
+<div id="tab-settings" class="tab">
+  <div class="section">
+    <h3>⚙️ הגדרות</h3>
+    <div class="token-box">
+      🔐 כדי לשמור שינויים ב-GitHub, צריך Personal Access Token עם הרשאת <strong>repo</strong>.
+      <br>קבל טוקן ב: GitHub → Settings → Developer settings → Personal access tokens → Classic
     </div>
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-p" onclick="saveToken()">שמור וטען</button>
-      <button class="btn btn-o" onclick="clearToken()">נקה</button>
+    <div id="settingsMsg"></div>
+    <div style="margin-bottom:14px">
+      <label>GitHub Token</label>
+      <input type="password" id="tokenInput" placeholder="ghp_...">
     </div>
-    <div id="tokenStatus" style="margin-top:9px;font-size:.83rem;color:var(--muted)"></div>
-    <hr style="margin:18px 0;border:none;border-top:1px solid var(--bdr)">
-    <h3 style="margin-bottom:10px;font-size:1rem">❓ איך מייצרים Token?</h3>
-    <ol style="font-size:.85rem;line-height:2.1;padding-right:16px">
-      <li>GitHub → Settings → Developer settings</li>
-      <li>Personal access tokens → Tokens (classic)</li>
-      <li>Generate new token → scope: <strong>repo</strong></li>
-      <li>העתק ← הדבק כאן ← שמור</li>
-    </ol>
-    <hr style="margin:18px 0;border:none;border-top:1px solid var(--bdr)">
-    <h3 style="margin-bottom:6px;font-size:1rem">📁 Repository</h3>
-    <code style="font-size:.85rem;background:#f8fafc;padding:6px 10px;border-radius:6px;display:block">avivpar-afk/music</code>
+    <div style="margin-bottom:14px">
+      <label>שם ריפו (owner/repo)</label>
+      <input type="text" id="repoInput" placeholder="avivpar-afk/music">
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="saveSettings()">💾 שמור וטען</button>
+      <button class="btn btn-sm" onclick="testConnection()" style="background:#f0f0f0">🔍 בדוק חיבור</button>
+      <button class="btn btn-sm btn-danger" onclick="clearToken()">🗑️ נקה טוקן</button>
+    </div>
+  </div>
+  <div class="section">
+    <h3>ℹ️ סטטוס חיבור</h3>
+    <div id="connStatus">לא נבדק</div>
   </div>
 </div>
 
-</main>
-
 <script>
-// ===== CONFIG =====
-const REPO = 'avivpar-afk/music';
 const DAYS = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
-const MONTHS = ['ינואר','פברואר','מרץ','אפריל','מאי','יוני','יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר'];
+const TODAY_HE = DAYS[new Date().getDay()];
+const TODAY_ISO = new Date().toISOString().slice(0,10);
 
-// ===== STATE =====
+let REPO = localStorage.getItem('gh_repo') || 'avivpar-afk/music';
 let token = localStorage.getItem('gh_token') || '';
 let students = [], lessons = [];
 let sSha = '', lSha = '';
+let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
 
-// ===== ENCODING =====
+document.getElementById('headerDate').textContent = new Date().toLocaleDateString('he-IL',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
 function enc(str) { return btoa(unescape(encodeURIComponent(str))); }
 function dec(b64) { return decodeURIComponent(escape(atob(b64.replace(/\n/g,'')))); }
 
-// ===== GITHUB API =====
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+  if(name === 'history') renderHistory('all');
+  if(name === 'students') renderStudents();
+  if(name === 'strategy') renderStrategy();
+  if(name === 'tasks') renderTasks();
+}
+
 async function ghGet(filename) {
   const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${filename}`, {
-    headers: { Authorization: `token ${token}` }
+    headers: token ? { Authorization: `token ${token}` } : {}
   });
-  if (!r.ok) throw new Error(`${r.status} ${filename}`);
+  if (!r.ok) throw new Error(`HTTP ${r.status}`);
   const d = await r.json();
   return { data: JSON.parse(dec(d.content)), sha: d.sha };
 }
 
 async function ghPut(filename, content, sha) {
+  if (!token) throw new Error('אין טוקן — הגדר בלשונית הגדרות');
   const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${filename}`, {
     method: 'PUT',
     headers: { Authorization: `token ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      message: `עדכון ${filename} — ${new Date().toLocaleDateString('he-IL')}`,
-      content: enc(JSON.stringify(content, null, 2)),
-      sha
-    })
+    body: JSON.stringify({ message: `עדכון ${filename}`, content: enc(JSON.stringify(content, null, 2)), sha })
   });
-  if (!r.ok) throw new Error(`שגיאה בשמירה: ${r.status}`);
+  if (!r.ok) { const e = await r.json(); throw new Error(e.message || `HTTP ${r.status}`); }
   const d = await r.json();
   return d.content.sha;
 }
 
-// ===== LOAD =====
+function setStatus(msg, type='info') {
+  const el = document.getElementById('statusMsg');
+  el.innerHTML = `<div class="msg msg-${type}">${msg}</div>`;
+  if(type==='success') setTimeout(()=>el.innerHTML='',4000);
+}
+
 async function loadData() {
-  if (!token) { gotoSettings('נדרש GitHub Token'); return; }
-  setSyncDot('spin');
+  setStatus('<span class="spinner"></span> טוען נתונים מ-GitHub...');
   try {
     const [s, l] = await Promise.all([ghGet('students.json'), ghGet('lessons_log.json')]);
     students = s.data; sSha = s.sha;
-    lessons  = l.data; lSha  = l.sha;
-    renderAll();
-    setSyncDot('ok');
+    lessons = l.data; lSha = l.sha;
+    renderToday();
+    populateStudentSelect();
+    setStatus('✅ נתונים עודכנו', 'success');
   } catch(e) {
-    setSyncDot('err');
-    toast('שגיאה: ' + e.message, 'err');
+    setStatus(`❌ שגיאה בטעינה: ${e.message} — בדוק טוקן בהגדרות`, 'error');
   }
 }
 
-async function saveLessons() {
-  setSyncDot('spin');
-  lSha = await ghPut('lessons_log.json', lessons, lSha);
-  setSyncDot('ok');
-}
-
-// ===== HELPERS =====
-function locIcon(l) { return {זום:'🖥️',בית:'🏠',טים:'💻','אצל תלמיד':'🚗'}[l] || '📍'; }
-function todayStr() { return new Date().toISOString().split('T')[0]; }
-function dayNum(d) { return DAYS.indexOf(d); }
-function activeS() { return students.filter(s => s['סטטוס']==='פעיל'); }
-function waitingS() { return students.filter(s => ['ממתין לתיאום','מתלבט'].includes(s['סטטוס'])); }
-
-function lastLesson(sid) {
-  return lessons.filter(l=>l.student_id===sid&&l['סטטוס']==='התקיים')
-    .sort((a,b)=>b['תאריך'].localeCompare(a['תאריך']))[0]||null;
-}
-
-function unpaidLessons(sid) {
-  return lessons.filter(l=>l.student_id===sid&&l['סטטוס']==='התקיים'&&l['תשלום']==='לא_שולם');
-}
-
-function unpaid(sid) {
-  const s = students.find(x=>x.id===sid);
-  return unpaidLessons(sid).length * (s?.['מחיר_לשיעור']||0);
-}
-
-function todayS() {
-  const d = new Date().getDay();
-  return activeS().filter(s=>s['יום_קבוע']&&dayNum(s['יום_קבוע'])===d&&s['שעה_קבועה'])
-    .sort((a,b)=>a['שעה_קבועה'].localeCompare(b['שעה_קבועה']));
-}
-
-function calLink(student, date) {
-  if (!student['שעה_קבועה']||!date) return null;
-  const [y,m,d] = date.split('-');
-  const [h,mi] = student['שעה_קבועה'].split(':');
-  const dur = student['משך_שיעור_דקות']||60;
-  const em = parseInt(h)*60+parseInt(mi)+dur;
-  const eh = String(Math.floor(em/60)).padStart(2,'0'), emm = String(em%60).padStart(2,'0');
-  const s = `${y}${m}${d}T${h}${mi}00`, e2 = `${y}${m}${d}T${eh}${emm}00`;
-  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('שיעור '+student['שם'])}&dates=${s}/${e2}&location=${encodeURIComponent(student['מיקום']||'')}`;
-}
-
-// ===== RENDER ALL =====
-function renderAll() {
-  renderDate();
-  renderToday();
-  renderStudents();
-  renderTasks();
-  populateSelect();
-  const el = document.getElementById('sCount');
-  if (el) el.textContent = activeS().length;
-}
-
-// ===== TODAY =====
 function renderToday() {
-  const today = todayS();
-  let debt = 0; students.forEach(s=>{ if(s['סטטוס']==='פעיל') debt+=unpaid(s.id); });
-  const urg = TASKS.filter(t=>t.cat==='urgent'&&!tDone(t.id)).length;
+  // Stats
+  const activeStudents = students.filter(s=>s['סטטוס']==='פעיל').length;
+  const debts = calcDebts();
+  const totalDebt = Object.values(debts).reduce((a,b)=>a+b,0);
+  const todayCount = students.filter(s=>s['יום_קבוע']===TODAY_HE && s['סטטוס']==='פעיל').length;
+  document.getElementById('statsGrid').innerHTML = `
+    <div class="card orange"><div class="num">${totalDebt}₪</div><div class="lbl">חובות פתוחים</div></div>
+    <div class="card blue"><div class="num">${todayCount}</div><div class="lbl">שיעורים היום</div></div>
+    <div class="card green"><div class="num">${activeStudents}</div><div class="lbl">תלמידים פעילים</div></div>
+    <div class="card red"><div class="num">${Object.keys(debts).length}</div><div class="lbl">חייבים</div></div>
+  `;
 
-  let h = `<div class="stat-grid">
-    <div class="stat-card"><div class="stat-num">${activeS().length}</div><div class="stat-lbl">תלמידים פעילים</div></div>
-    <div class="stat-card"><div class="stat-num">${today.length}</div><div class="stat-lbl">שיעורים היום</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:${debt>0?'var(--err)':'var(--ok)'}">${debt}₪</div><div class="stat-lbl">חובות פתוחים</div></div>
-    <div class="stat-card"><div class="stat-num" style="color:${urg>0?'var(--warn)':'var(--ok)'}">${urg}</div><div class="stat-lbl">משימות דחופות</div></div>
-  </div><div class="grid2"><div>`;
+  // Urgent tasks
+  const urgent = tasks.filter(t=>!t.done && t.urgent);
+  const regularTasks = tasks.filter(t=>!t.done).slice(0,3);
+  const taskItems = [...urgent, ...regularTasks.filter(t=>!t.urgent)].slice(0,4);
+  document.getElementById('urgentTasks').innerHTML = taskItems.length ?
+    taskItems.map(t=>`<div class="task-row"><input type="checkbox" onchange="toggleTask('${t.id}')"><label>${t.text}</label></div>`).join('') :
+    '<div style="color:#aaa;font-size:0.85rem">אין משימות דחופות</div>';
 
-  // Today's lessons
-  h += `<div class="card"><div class="card-title">📅 שיעורים היום</div>`;
-  if (!today.length) {
-    h += '<div style="color:var(--muted);text-align:center;padding:10px;font-size:.88rem">אין שיעורים היום</div>';
-  } else {
-    today.forEach(s => {
-      const last = lastLesson(s.id);
-      const d2 = unpaid(s.id);
-      const cl = calLink(s, todayStr());
-      h += `<div class="lesson-item">
-        <div class="ltime">${s['שעה_קבועה']}</div>
-        <div class="linfo">
-          <div class="lname">${s['שם']} ${locIcon(s['מיקום']||'')}</div>
-          <div class="lmeta">${s['כלי']} · ${s['משך_שיעור_דקות']}דק' · ${s['מחיר_לשיעור']}₪</div>
-          ${last&&last['מה_עברנו']?`<div class="lmeta" style="margin-top:2px">📝 ${last['מה_עברנו'].substring(0,75)}${last['מה_עברנו'].length>75?'...':''}</div>`:''}
-          <div style="margin-top:5px;display:flex;gap:5px;align-items:center;flex-wrap:wrap">
-            ${d2>0?`<span class="badge br">חייב ${d2}₪</span>`:`<span class="badge bg">מסולק ✓</span>`}
-            ${cl?`<a href="${cl}" target="_blank" class="cal-btn">📅 יומן גוגל</a>`:''}
-          </div>
-        </div>
-      </div>`;
-    });
-  }
-  h += '</div>';
+  // Today lessons
+  const todayStudents = students.filter(s=>s['יום_קבוע']===TODAY_HE && s['סטטוס']==='פעיל')
+    .sort((a,b)=>(a['שעה_קבועה']||'').localeCompare(b['שעה_קבועה']||''));
+  document.getElementById('todayLessons').innerHTML = todayStudents.length ?
+    todayStudents.map(s=>`<div class="lesson-row"><span>${s['שעה_קבועה']||''} — ${s['שם']}</span><span class="tag">${s['כלי']}</span></div>`).join('') :
+    '<div style="color:#aaa;font-size:0.85rem">אין שיעורים היום</div>';
 
-  // Payment summary
-  h += `<div class="card"><div class="card-title">💰 חובות פתוחים</div>`;
-  const debtors = activeS().filter(s=>unpaid(s.id)>0);
-  if (!debtors.length) {
-    h += '<div style="color:var(--muted);font-size:.85rem">✅ כולם מסולקים</div>';
-  } else {
-    debtors.forEach(s => {
-      const amt = unpaid(s.id), cnt = unpaidLessons(s.id).length;
-      h += `<div class="pay-row">
-        <span>${s['שם']} <small style="color:var(--muted)">(${cnt})</small></span>
-        <div style="display:flex;gap:5px;align-items:center">
-          <span style="font-weight:700;color:var(--err)">${amt}₪</span>
-          <button class="btn btn-ok btn-sm" onclick="quickPay('${s.id}')">שולם</button>
-        </div>
-      </div>`;
-    });
-    const tot = debtors.reduce((s,x)=>s+unpaid(x.id),0);
-    h += `<div style="text-align:left;padding:5px 10px;font-weight:700;border-top:1px solid var(--bdr);margin-top:3px;font-size:.9rem">סה"כ: ${tot}₪</div>`;
-  }
-  h += '</div></div><div>';
-
-  // Upcoming week
-  h += `<div class="card"><div class="card-title">🗓️ שיעורים הבאים</div>`;
-  const tod = new Date().getDay();
-  let hasNext = false;
-  for (let i=1;i<=6;i++) {
-    const dn = (tod+i)%7;
-    const ss = activeS().filter(s=>s['יום_קבוע']&&dayNum(s['יום_קבוע'])===dn&&s['שעה_קבועה']);
-    if (ss.length) {
-      hasNext = true;
-      h += `<div style="margin-bottom:9px"><div style="font-weight:600;color:var(--p);font-size:.83rem;margin-bottom:3px">${DAYS[dn]}</div>`;
-      ss.forEach(s => {
-        h += `<div style="display:flex;justify-content:space-between;font-size:.81rem;padding:2px 0;border-bottom:1px solid #f1f5f9"><span>${s['שעה_קבועה']} — ${s['שם']}</span><span style="color:var(--muted)">${s['כלי']}</span></div>`;
+  // Upcoming lessons
+  const upcoming = {};
+  students.filter(s=>s['יום_קבוע'] && s['סטטוס']==='פעיל').forEach(s=>{
+    if(!upcoming[s['יום_קבוע']]) upcoming[s['יום_קבוע']] = [];
+    upcoming[s['יום_קבוע']].push(s);
+  });
+  let upHtml = '';
+  DAYS.forEach(d=>{
+    if(upcoming[d]) {
+      upHtml += `<div class="day-label">${d}</div>`;
+      upcoming[d].sort((a,b)=>(a['שעה_קבועה']||'').localeCompare(b['שעה_קבועה']||'')).forEach(s=>{
+        upHtml += `<div class="lesson-row"><span>${s['שעה_קבועה']||''} — ${s['שם']}</span><span class="tag">${s['כלי']}</span></div>`;
       });
-      h += '</div>';
     }
-  }
-  if (!hasNext) h += '<div style="color:var(--muted);font-size:.83rem">אין שיעורים נוספים השבוע</div>';
-  h += '</div>';
+  });
+  document.getElementById('upcomingLessons').innerHTML = upHtml || '<div style="color:#aaa;font-size:0.85rem">אין שיעורים</div>';
 
-  // Urgent tasks summary
-  h += `<div class="card"><div class="card-title">⚡ משימות דחופות</div>`;
-  const urgTasks = TASKS.filter(t=>t.cat==='urgent'&&!tDone(t.id));
-  if (!urgTasks.length) {
-    h += '<div style="color:var(--muted);font-size:.85rem">אין דחוף ✅</div>';
-  } else {
-    urgTasks.forEach(t => { h += `<div style="font-size:.87rem;padding:4px 0;border-bottom:1px solid #f1f5f9">⚠️ ${t.text}</div>`; });
-  }
-  h += '</div></div></div>';
-
-  document.getElementById('todayContent').innerHTML = h;
+  // Debts
+  let debtHtml = '';
+  Object.entries(debts).sort((a,b)=>b[1]-a[1]).forEach(([name,amt])=>{
+    debtHtml += `<div class="debt-row"><span>${name}</span><span class="debt-amt">${amt}₪</span></div>`;
+  });
+  document.getElementById('debtList').innerHTML = debtHtml || '<div style="color:#aaa;font-size:0.85rem">אין חובות 🎉</div>';
 }
 
-// ===== QUICK PAY =====
-async function quickPay(sid) {
-  const s = students.find(x=>x.id===sid);
-  const unp = unpaidLessons(sid);
-  if (!unp.length) return;
-  const tot = unpaid(sid), cnt = unp.length;
-  if (!confirm(`לסמן ${cnt} שיעורים של ${s['שם']} כשולמים?\nסה"כ: ${tot}₪`)) return;
-  unp.forEach((l,i) => { l['תשלום']='שולם'; l['סכום_ששולם']=i===0?tot:null; });
-  try { await saveLessons(); renderAll(); toast('✅ תשלום עודכן!','ok'); }
-  catch(e) { toast('שגיאה: '+e.message,'err'); }
+function calcDebts() {
+  const debts = {};
+  if(!students.length) return debts;
+  students.forEach(s=>{
+    const price = s['מחיר_לשיעור'];
+    if(!price) return;
+    const myLessons = lessons.filter(l=>l['student_id']===s['id'] && l['סטטוס']==='התקיים');
+    let owed = 0;
+    myLessons.forEach(l=>{
+      if(l['תשלום']==='לא' || !l['תשלום']) {
+        owed += price;
+      } else if(l['תשלום']==='כן' && l['סכום_ששולם'] && l['סכום_ששולם'] < price) {
+        owed += price - l['סכום_ששולם'];
+      }
+    });
+    if(owed > 0) debts[s['שם']] = owed;
+  });
+  return debts;
 }
 
-// ===== STUDENTS =====
-function renderStudents() {
-  const el = document.getElementById('studentList');
-  if (!el||!students.length) return;
-
-  el.innerHTML = activeS().map(s => {
-    const last = lastLesson(s.id);
-    const d2 = unpaid(s.id);
-    const unp = unpaidLessons(s.id);
-    const dayInfo = s['יום_קבוע'] ? `${s['יום_קבוע']} ${s['שעה_קבועה']||''}` : 'לא קבוע';
-    return `<div class="sc">
-      <div class="sc-head" onclick="toggleSC('${s.id}')">
-        <div>
-          <div style="font-weight:600;font-size:.95rem">${s['שם']}</div>
-          <div style="font-size:.76rem;color:var(--muted);margin-top:1px">${s['כלי']} · ${dayInfo} · ${locIcon(s['מיקום']||'')} ${s['מיקום']||''}</div>
-        </div>
-        <div style="display:flex;gap:5px;align-items:center">
-          ${d2>0?`<span class="badge br">חייב ${d2}₪</span>`:`<span class="badge bg">מסולק ✓</span>`}
-          <span style="color:var(--muted);font-size:.75rem">▾</span>
-        </div>
-      </div>
-      <div class="sc-body" id="sc-${s.id}">
-        <div class="dr"><span class="dl">📞</span><span class="dv">${s['טלפון']||'—'}</span></div>
-        <div class="dr"><span class="dl">💰 מחיר</span><span class="dv">${s['מחיר_לשיעור']||'—'}₪ · ${s['תדירות']||''}</span></div>
-        <div class="dr"><span class="dl">📊 רמה</span><span class="dv">${s['רמה']||'—'}</span></div>
-        ${last?`<div class="dr"><span class="dl">📅 שיעור אחרון</span><span class="dv">${last['תאריך']}</span></div>`:''}
-        ${last&&last['מה_עברנו']?`<div style="margin-top:8px"><div style="font-size:.76rem;color:var(--muted);margin-bottom:3px">מה עברנו:</div><div style="font-size:.84rem;background:#f8fafc;padding:8px;border-radius:7px;line-height:1.6">${last['מה_עברנו']}</div></div>`:''}
-        ${s['הערות']?`<div class="info-box" style="margin-top:8px;font-size:.82rem">${s['הערות']}</div>`:''}
-        ${unp.length?`<div style="margin-top:10px"><button class="btn btn-ok btn-sm" onclick="quickPay('${s.id}')">💰 סמן ${unp.length} שיעורים כשולמים (${d2}₪)</button></div>`:''}
-      </div>
-    </div>`;
-  }).join('');
-
-  const wel = document.getElementById('waitingList');
-  if (wel) {
-    wel.innerHTML = waitingS().map(w => `
-      <div class="card" style="margin-bottom:7px">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div><strong>${w['שם']}</strong><span style="font-size:.78rem;color:var(--muted);margin-right:6px"> ${w['כלי']||''}</span></div>
-          <span class="badge by">${w['הערות']||w['סטטוס']}</span>
-        </div>
-        ${w['טלפון']?`<div style="font-size:.8rem;color:var(--muted);margin-top:4px">📞 ${w['טלפון']}</div>`:''}
-      </div>`).join('');
-  }
-}
-
-function toggleSC(id) { document.getElementById('sc-'+id).classList.toggle('open'); }
-
-// ===== LOG FORM =====
-function populateSelect() {
-  const sel = document.getElementById('fStudent');
-  if (!sel) return;
-  const cur = sel.value;
-  sel.innerHTML = '<option value="">— בחר תלמיד —</option>';
-  activeS().forEach(s => { sel.innerHTML += `<option value="${s.id}">${s['שם']} (${s['כלי']})</option>`; });
-  if (cur) sel.value = cur;
-}
-
-function onStudentChange() {
-  const s = students.find(x=>x.id===document.getElementById('fStudent').value);
-  if (s?.['שעה_קבועה']) document.getElementById('fTime').value = s['שעה_קבועה'];
-}
-
-function onStatusChange() {
-  document.getElementById('contentSection').style.display =
-    document.getElementById('fStatus').value==='התקיים' ? 'block' : 'none';
-}
-
-function onPaymentChange() {
-  document.getElementById('amountSection').style.display =
-    document.getElementById('fPayment').value==='שולם' ? 'block' : 'none';
-}
-
-async function submitLesson(e) {
-  e.preventDefault();
-  const sid = document.getElementById('fStudent').value;
-  if (!sid) { toast('בחר תלמיד','err'); return; }
-  const status = document.getElementById('fStatus').value;
-  const payment = document.getElementById('fPayment').value;
-  const lesson = {
-    student_id: sid,
-    'תאריך': document.getElementById('fDate').value,
-    'שעה': document.getElementById('fTime').value,
-    'סטטוס': status,
-    'סיבת_ביטול': status!=='התקיים' ? '' : null,
-    'מה_עברנו': status==='התקיים' ? document.getElementById('fContent').value : null,
-    'תשלום': status!=='התקיים' ? 'לא_רלוונטי' : payment,
-    'סכום_ששולם': payment==='שולם' ? (Number(document.getElementById('fAmount').value)||null) : null,
-    'הערות': document.getElementById('fNotes').value
-  };
-  lessons.unshift(lesson);
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true; btn.textContent = '⏳ שומר...';
-  try {
-    await saveLessons();
-    document.getElementById('lessonForm').reset();
-    document.getElementById('fDate').value = todayStr();
-    document.getElementById('contentSection').style.display = 'block';
-    document.getElementById('amountSection').style.display = 'none';
-    renderAll();
-    toast('✅ שיעור נשמר ב-GitHub!','ok');
-    showTab('today', document.querySelector('nav button'));
-  } catch(err) {
-    lessons.shift();
-    toast('שגיאה בשמירה: '+err.message,'err');
-  } finally {
-    btn.disabled = false; btn.textContent = '💾 שמור שיעור';
-  }
-}
-
-// ===== TASKS =====
-const TASKS = [
-  {id:'t1',cat:'urgent',text:'לצלם סרטון עבור אורן שירצקי',sub:'דינה + סאקו הגיעו דרכו'},
-  {id:'t2',cat:'coord',text:'שיעור ניסיון — אילנה כהן',sub:'050-6230734'},
-  {id:'t3',cat:'coord',text:'שיעור ניסיון — שמחה',sub:'052-5844453'},
-  {id:'t4',cat:'coord',text:'שיעור ניסיון — ענת',sub:'052-6232002'},
-  {id:'t5',cat:'coord',text:'שלמה — לחזור אליו (מתלבט)',sub:'שוחח ב-18/04'},
-  {id:'t6',cat:'strat',text:'להודיע על מדיניות ביטול חדשה',sub:'ביטול פחות מ-24 שעות = מחויב'},
-  {id:'t7',cat:'strat',text:'מעבר לתשלום מראש — כל התלמידים',sub:'4 שיעורים מראש'},
-  {id:'t8',cat:'strat',text:'העלאת מחירים לתלמידים חדשים — 190–200₪',sub:'מיידי'},
-  {id:'t9',cat:'strat',text:'לפרסם קבוצת מפוחית בפייסבוק',sub:''},
-  {id:'t10',cat:'strat',text:'לפנות ל-2–3 מתנסים — חוג מפוחית',sub:''},
-];
-
-function tDone(id) { return !!(JSON.parse(localStorage.getItem('td')||'{}')[id]); }
-function toggleTask(id,v) {
-  const d = JSON.parse(localStorage.getItem('td')||'{}');
-  v?d[id]=1:delete d[id];
-  localStorage.setItem('td',JSON.stringify(d));
-  renderToday();
-}
-
-function renderTasks() {
-  [['urgent','taskUrgent'],['coord','taskCoord'],['strat','taskStrat']].forEach(([cat,elId])=>{
-    const el = document.getElementById(elId);
-    if(!el) return;
-    const ts = TASKS.filter(t=>t.cat===cat);
-    el.innerHTML = ts.map(t=>{
-      const done = tDone(t.id);
-      return `<div class="task-item">
-        <input type="checkbox" ${done?'checked':''} onchange="toggleTask('${t.id}',this.checked)">
-        <div><div class="task-txt ${done?'done':''}">${t.text}</div>${t.sub?`<div class="task-sub">${t.sub}</div>`:''}</div>
-      </div>`;
-    }).join('')||'<div style="color:var(--muted);font-size:.83rem">—</div>';
+function populateStudentSelect() {
+  const sel = document.getElementById('logStudent');
+  sel.innerHTML = '<option value="">בחר תלמיד...</option>';
+  students.filter(s=>s['סטטוס']==='פעיל').forEach(s=>{
+    sel.innerHTML += `<option value="${s['id']}">${s['שם']}</option>`;
+  });
+  // History filter
+  const hf = document.getElementById('historyFilter');
+  hf.innerHTML = '<button class="active" onclick="renderHistory(\'all\')">הכל</button>';
+  students.filter(s=>s['סטטוס']==='פעיל').forEach(s=>{
+    hf.innerHTML += `<button onclick="renderHistory('${s['id']}')">${s['שם']}</button>`;
   });
 }
 
-// ===== UI =====
-function showTab(name,btn) {
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
-  document.getElementById(name).classList.add('active');
-  if(btn) btn.classList.add('active');
+// Pre-fill today's date and time
+document.getElementById('logDate').value = TODAY_ISO;
+document.getElementById('logTime').value = new Date().toTimeString().slice(0,5);
+
+document.getElementById('logForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const studentId = document.getElementById('logStudent').value;
+  if(!studentId) { showMsg('logMsg','בחר תלמיד','error'); return; }
+  const student = students.find(s=>s['id']===studentId);
+  const entry = {
+    student_id: studentId,
+    תאריך: document.getElementById('logDate').value,
+    שעה: document.getElementById('logTime').value,
+    סטטוס: document.getElementById('logStatus').value,
+    מה_עברנו: document.getElementById('logContent').value,
+    תשלום: document.getElementById('logPaid').value,
+    סכום_ששולם: parseInt(document.getElementById('logAmount').value)||0,
+    הערות: document.getElementById('logNotes').value
+  };
+  showMsg('logMsg','<span class="spinner"></span> שומר...','info');
+  try {
+    const updated = [...lessons, entry].sort((a,b)=>a['תאריך']>b['תאריך']?-1:1);
+    lSha = await ghPut('lessons_log.json', updated, lSha);
+    lessons = updated;
+    showMsg('logMsg',`✅ שיעור של ${student['שם']} נשמר!`,'success');
+    document.getElementById('logForm').reset();
+    document.getElementById('logDate').value = TODAY_ISO;
+    renderToday();
+  } catch(e) {
+    showMsg('logMsg',`❌ שגיאה: ${e.message}`,'error');
+  }
+});
+
+function showMsg(id, msg, type='info') {
+  document.getElementById(id).innerHTML = `<div class="msg msg-${type}">${msg}</div>`;
+  if(type==='success') setTimeout(()=>document.getElementById(id).innerHTML='',4000);
 }
 
-function gotoSettings(msg) {
-  showTab('settings', document.querySelector('nav button:last-child'));
-  if(msg) toast(msg,'err');
+function renderHistory(filter) {
+  document.querySelectorAll('#historyFilter button').forEach(b=>{
+    b.classList.toggle('active', b.textContent === (filter==='all'?'הכל':students.find(s=>s['id']===filter)?.['שם']||''));
+  });
+  const filtered = filter==='all' ? lessons : lessons.filter(l=>l['student_id']===filter);
+  const sorted = [...filtered].sort((a,b)=>a['תאריך']>b['תאריך']?-1:1);
+  if(!sorted.length) { document.getElementById('historyList').innerHTML='<div class="no-data">אין שיעורים</div>'; return; }
+  document.getElementById('historyList').innerHTML = sorted.slice(0,50).map(l=>{
+    const s = students.find(st=>st['id']===l['student_id']);
+    const statusClass = l['סטטוס']==='התקיים'?(l['תשלום']==='כן'?'log-paid':'log-unpaid'):'log-cancel';
+    return `<div class="log-entry">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span class="log-date">${l['תאריך']} ${l['שעה']||''}</span>
+        <span class="log-status ${statusClass}">${l['סטטוס']} ${l['תשלום']==='כן'?'✅':l['סטטוס']==='התקיים'?'💰':''}</span>
+      </div>
+      <div style="font-weight:600;margin-bottom:3px">${s?.['שם']||l['student_id']}</div>
+      ${l['מה_עברנו']?`<div style="color:#555">${l['מה_עברנו']}</div>`:''}
+      ${l['סכום_ששולם']?`<div style="color:#27ae60;font-size:0.8rem">שולם: ${l['סכום_ששולם']}₪</div>`:''}
+      ${l['הערות']?`<div style="color:#777;font-size:0.8rem">${l['הערות']}</div>`:''}
+    </div>`;
+  }).join('');
 }
 
-function setSyncDot(state) {
-  const d = document.getElementById('syncDot');
-  d.className = 'sync-dot' + (state==='spin'?' spin':state==='err'?' err':'');
+function renderStudents() {
+  const active = students.filter(s=>s['סטטוס']==='פעיל');
+  const other = students.filter(s=>s['סטטוס']!=='פעיל');
+  const debts = calcDebts();
+  function card(s) {
+    const debt = debts[s['שם']] || 0;
+    const badgeClass = s['סטטוס']==='פעיל'?'badge-active':s['סטטוס']==='הפסקה זמנית'?'badge-pause':s['סטטוס'].includes('ממתין')||s['סטטוס'].includes('מתלבט')?'badge-wait':'badge-inactive';
+    return `<div class="student-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <h4>${s['שם']}</h4>
+        <span class="badge ${badgeClass}">${s['סטטוס']}</span>
+      </div>
+      <div class="meta">
+        <span>🎸 ${s['כלי']||'—'}</span>
+        <span>📅 ${s['יום_קבוע']||'—'} ${s['שעה_קבועה']||''}</span>
+        <span>💰 ${s['מחיר_לשיעור']?s['מחיר_לשיעור']+'₪':'—'}</span>
+        ${s['טלפון']?`<span>📞 <a href="tel:${s['טלפון']}">${s['טלפון']}</a></span>`:''}
+      </div>
+      ${debt?`<div style="color:#e74c3c;font-size:0.82rem;margin-bottom:6px">⚠️ חוב: ${debt}₪</div>`:''}
+      ${s['הערות']?`<div style="font-size:0.8rem;color:#666">${s['הערות']}</div>`:''}
+    </div>`;
+  }
+  document.getElementById('studentsGrid').innerHTML =
+    '<h3 style="margin:0 0 12px;font-size:1rem">תלמידים פעילים</h3>' +
+    active.map(card).join('') +
+    (other.length ? '<h3 style="margin:16px 0 12px;font-size:1rem;color:#888">לא פעיל / ממתין</h3>' + other.map(card).join('') : '');
 }
 
-let toastTmr;
-function toast(msg, type='') {
-  clearTimeout(toastTmr);
-  document.querySelectorAll('.toast').forEach(t=>t.remove());
-  const el = document.createElement('div');
-  el.className = 'toast'+(type?' '+type:'');
-  el.textContent = msg;
-  document.body.appendChild(el);
-  toastTmr = setTimeout(()=>el.remove(), 3200);
+function renderTasks() {
+  document.getElementById('tasksList').innerHTML = tasks.length ?
+    tasks.map(t=>`<div class="task-row">
+      <input type="checkbox" ${t.done?'checked':''} onchange="toggleTask('${t.id}')">
+      <label class="${t.done?'done':''}" onclick="">${t.text}</label>
+      <button class="btn btn-sm btn-danger" onclick="deleteTask('${t.id}')">✕</button>
+    </div>`).join('') :
+    '<div style="color:#aaa;font-size:0.85rem">אין משימות</div>';
 }
 
-// ===== TOKEN =====
-function saveToken() {
-  const v = document.getElementById('tokenInput').value.trim();
-  if (!v) { toast('הכנס טוקן','err'); return; }
-  token = v; localStorage.setItem('gh_token',token);
-  document.getElementById('tokenStatus').textContent = '✅ טוקן נשמר — טוען...';
+function toggleTask(id) {
+  const t = tasks.find(t=>t.id===id);
+  if(t) t.done = !t.done;
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  renderTasks();
+  renderToday();
+}
+
+function deleteTask(id) {
+  tasks = tasks.filter(t=>t.id!==id);
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  renderTasks();
+}
+
+document.getElementById('addTaskForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const text = document.getElementById('newTaskText').value.trim();
+  if(!text) return;
+  tasks.push({ id: Date.now().toString(), text, done: false });
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  document.getElementById('newTaskText').value = '';
+  renderTasks();
+});
+
+// Seed tasks from student notes if empty
+if(tasks.length === 0) {
+  tasks = [
+    { id:'t1', text:'לצלם סרטון עבור אורן שירצקי (דינה + סאקו הגיעו דרכו)', done:false },
+    { id:'t2', text:'לתאם שיעור ניסיון עם אילנה כהן', done:false },
+    { id:'t3', text:'לתאם שיעור ניסיון עם שמחה', done:false },
+    { id:'t4', text:'לחזור לשלמה (מתלבט) — התקשר לשוחח', done:false },
+  ];
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function renderStrategy() {
+  if(!students.length) return;
+  const active = students.filter(s=>s['סטטוס']==='פעיל');
+  const monthlyPotential = active.reduce((sum,s)=>{
+    const price = s['מחיר_לשיעור']||0;
+    const freq = s['תדירות']==='כל שבוע'?4:s['תדירות']==='פעם בשבועיים'?2:1;
+    return sum + price*freq;
+  },0);
+  const debts = calcDebts();
+  const totalDebt = Object.values(debts).reduce((a,b)=>a+b,0);
+  document.getElementById('stratStats').innerHTML = `
+    <div class="lesson-row"><span>פוטנציאל חודשי (ללא ביטולים)</span><span style="font-weight:700;color:#27ae60">${monthlyPotential}₪</span></div>
+    <div class="lesson-row"><span>תלמידים פעילים</span><span>${active.length}</span></div>
+    <div class="lesson-row"><span>חובות פתוחים</span><span style="color:#e74c3c;font-weight:700">${totalDebt}₪</span></div>
+    <div class="lesson-row"><span>ממתינים לתיאום</span><span>${students.filter(s=>s['סטטוס'].includes('ממתין')||s['סטטוס'].includes('מתלבט')).length}</span></div>
+  `;
+}
+
+// Settings
+document.getElementById('tokenInput').value = token;
+document.getElementById('repoInput').value = REPO;
+
+function saveSettings() {
+  token = document.getElementById('tokenInput').value.trim();
+  REPO = document.getElementById('repoInput').value.trim() || 'avivpar-afk/music';
+  localStorage.setItem('gh_token', token);
+  localStorage.setItem('gh_repo', REPO);
+  showMsg('settingsMsg','✅ נשמר! טוען נתונים...','success');
   loadData();
 }
+
+async function testConnection() {
+  const t = document.getElementById('tokenInput').value.trim();
+  const repo = document.getElementById('repoInput').value.trim() || REPO;
+  document.getElementById('connStatus').textContent = 'בודק...';
+  try {
+    const r = await fetch(`https://api.github.com/repos/${repo}/contents/students.json`, {
+      headers: t ? { Authorization: `token ${t}` } : {}
+    });
+    if(r.ok) document.getElementById('connStatus').innerHTML = '<span style="color:#27ae60">✅ חיבור תקין! קובץ students.json נמצא.</span>';
+    else document.getElementById('connStatus').innerHTML = `<span style="color:#e74c3c">❌ שגיאה ${r.status} — בדוק טוקן והרשאות</span>`;
+  } catch(e) {
+    document.getElementById('connStatus').innerHTML = `<span style="color:#e74c3c">❌ ${e.message}</span>`;
+  }
+}
+
 function clearToken() {
-  token=''; localStorage.removeItem('gh_token');
-  document.getElementById('tokenStatus').textContent = 'טוקן נמחק.';
+  localStorage.removeItem('gh_token');
+  localStorage.removeItem('gh_repo');
+  document.getElementById('tokenInput').value = '';
+  showMsg('settingsMsg','🗑️ טוקן נמחק','info');
 }
 
-// ===== AGREEMENT =====
-const AGREE = `שלום [שם התלמיד] 😊
-
-שמח שאתה/את מגיע/ה ללמוד — הנה כמה דברים שחשוב שנהיה מיואמים עליהם:
-
-📅 זמן השיעור
-[יום] בשעה [שעה] · [משך] דקות
-
-💰 תשלום
-[מחיר]₪ לשיעור, מראש על 4 שיעורים = [מחיר×4]₪
-[ביט / פייבוקס / מזומן]
-
-❌ ביטולים
-• עד 24 שעות לפני — לא מחויב
-• פחות מ-24 שעות — מחויב במלואו
-(חריג: מחלה פתאומית / חירום — בתיאום מראש)
-
-📱 תקשורת
-וואטסאפ — אענה תוך כמה שעות.
-
-מצפה לשיעורים! 🎵
-אביב`;
-
-function copyAgreement() {
-  navigator.clipboard.writeText(document.getElementById('agreementDoc').innerText)
-    .then(()=>toast('✅ הועתק!','ok'));
-}
-function resetAgreement() { document.getElementById('agreementDoc').innerText = AGREE; }
-
-// ===== DATE =====
-function renderDate() {
-  const d = new Date();
-  document.getElementById('dateLbl').textContent = `${DAYS[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()]}`;
-}
-
-// ===== INIT =====
-renderDate();
-document.getElementById('agreementDoc').innerText = AGREE;
-document.getElementById('fDate').value = todayStr();
-renderTasks();
-
-if (token) {
-  loadData();
-} else {
-  document.getElementById('todayContent').innerHTML = `
-    <div class="warn-box">⚙️ כדי להתחיל — <a href="#" onclick="gotoSettings();return false;" style="font-weight:600;color:var(--pd)">הגדר GitHub Token בהגדרות</a></div>`;
-}
+// Initial load
+loadData();
 </script>
 </body>
 </html>
