@@ -119,6 +119,10 @@
       <div id="debtList"></div>
     </div>
   </div>
+  <div class="section" id="calSection" style="display:none">
+    <h3>📆 יומן גוגל — אירועים קרובים</h3>
+    <div id="calEvents"></div>
+  </div>
 </div>
 
 <!-- LOG LESSON -->
@@ -254,6 +258,19 @@
       <button class="btn btn-sm" onclick="testConnection()" style="background:#f0f0f0">🔍 בדוק חיבור</button>
       <button class="btn btn-sm btn-danger" onclick="clearToken()">🗑️ נקה טוקן</button>
     </div>
+  </div>
+  <div class="section">
+    <h3>📆 חיבור ליומן Google</h3>
+    <div class="token-box" style="background:#e8f4fd;border-color:#4a90d9">
+      📋 איך מקבלים קישור ICS:<br>
+      Google Calendar → ⚙️ הגדרות → לחץ על שם היומן ← גלול למטה ← <strong>"כתובת סודית בפורמט iCal"</strong> ← העתק
+    </div>
+    <div style="margin-bottom:14px">
+      <label>קישור ICS של Google Calendar</label>
+      <input type="text" id="icsInput" placeholder="https://calendar.google.com/calendar/ical/...">
+    </div>
+    <button class="btn btn-primary" onclick="saveICS()">💾 שמור יומן</button>
+    <div id="icsMsg" style="margin-top:10px"></div>
   </div>
   <div class="section">
     <h3>ℹ️ סטטוס חיבור</h3>
@@ -568,6 +585,64 @@ function renderStrategy() {
   `;
 }
 
+// Google Calendar ICS
+let icsUrl = localStorage.getItem('ics_url') || '';
+document.getElementById('icsInput').value = icsUrl;
+
+function saveICS() {
+  icsUrl = document.getElementById('icsInput').value.trim();
+  localStorage.setItem('ics_url', icsUrl);
+  if(icsUrl) { loadCalendar(); showMsg('icsMsg','✅ נשמר! טוען יומן...','success'); }
+  else showMsg('icsMsg','🗑️ קישור יומן נמחק','info');
+}
+
+function parseICS(text) {
+  const events = [];
+  const blocks = text.split('BEGIN:VEVENT');
+  for(let i=1; i<blocks.length; i++) {
+    const b = blocks[i];
+    const get = (key) => {
+      const m = b.match(new RegExp(key + '[^:]*:([^\r\n]+)'));
+      return m ? m[1].trim() : '';
+    };
+    const dtRaw = get('DTSTART');
+    if(!dtRaw) continue;
+    const parseDate = (s) => {
+      if(s.length >= 15) return new Date(s.replace(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})/,'$1-$2-$3T$4:$5:$6'));
+      return new Date(s.replace(/(\d{4})(\d{2})(\d{2})/,'$1-$2-$3'));
+    };
+    const start = parseDate(dtRaw.replace('Z',''));
+    if(isNaN(start)) continue;
+    events.push({ summary: get('SUMMARY'), start, location: get('LOCATION') });
+  }
+  return events.sort((a,b)=>a.start-b.start);
+}
+
+async function loadCalendar() {
+  if(!icsUrl) return;
+  const proxy = 'https://corsproxy.io/?' + encodeURIComponent(icsUrl);
+  try {
+    const r = await fetch(proxy);
+    if(!r.ok) throw new Error('שגיאה בטעינה');
+    const text = await r.text();
+    const events = parseICS(text);
+    const now = new Date();
+    const soon = events.filter(e => e.start >= now && e.start <= new Date(now.getTime()+7*24*60*60*1000));
+    const sec = document.getElementById('calSection');
+    const el = document.getElementById('calEvents');
+    if(!soon.length) { sec.style.display='none'; return; }
+    sec.style.display='block';
+    el.innerHTML = soon.map(e=>{
+      const d = e.start.toLocaleDateString('he-IL',{weekday:'short',day:'numeric',month:'numeric'});
+      const t = e.start.toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
+      return `<div class="lesson-row"><span><strong>${e.summary}</strong></span><span class="tag">${d} ${t}</span></div>`;
+    }).join('');
+  } catch(e) {
+    document.getElementById('calEvents').innerHTML = `<div style="color:#e74c3c;font-size:0.85rem">שגיאה: ${e.message}</div>`;
+    document.getElementById('calSection').style.display='block';
+  }
+}
+
 // Settings
 document.getElementById('tokenInput').value = token;
 document.getElementById('repoInput').value = REPO;
@@ -605,6 +680,7 @@ function clearToken() {
 
 // Initial load
 loadData();
+loadCalendar();
 </script>
 </body>
 </html>
